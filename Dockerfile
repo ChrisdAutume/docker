@@ -33,7 +33,9 @@ RUN curl -O http://downloads3.ioncube.com/loader_downloads/ioncube_loaders_lin_x
  && cp "ioncube/ioncube_loader_lin_7.2.so" $PHP_EXT_DIR \
  && echo "zend_extension=ioncube_loader_lin_7.2.so" >> /usr/local/etc/php/conf.d/00_ioncube_loader_lin_7.2.ini \
  && rm -rf ioncube ioncube_loaders_lin_x86-64.tar.gz
-
+#Set a non port ROOT for apache listening
+RUN sed -i "s/Listen 80/Listen 8080/g" /etc/apache2/ports.conf &&\
+  sed -i "s/<VirtualHost \*:80>/<VirtualHost \*:8080>/g" /etc/apache2/sites-enabled/000-default.conf
 # Enable Apache XSendfile
 RUN { \
 		echo 'XSendFile On'; \
